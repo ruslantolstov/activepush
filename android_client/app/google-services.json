@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "744017491448",
+    "firebase_url": "https://activepush-af048.firebaseio.com",
+    "project_id": "activepush-af048",
+    "storage_bucket": "activepush-af048.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744017491448:android:b8f421744cbc8543f9120d",
+        "android_client_info": {
+          "package_name": "io.github.activepush"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744017491448-0cpjlitbqmhqijkugn9ihmk5tls2kpgj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.activepush",
+            "certificate_hash": "d4c6dbad4e734a4fcccca5357e079f446fb2eb2c"
+          }
+        },
+        {
+          "client_id": "744017491448-0812kd8597t4gtjo7morbn95cjl81jpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1nogrGMkr1V8ho0fw8J6vXQ8QS5LK5sM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744017491448-0812kd8597t4gtjo7morbn95cjl81jpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
