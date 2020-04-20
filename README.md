@@ -24,7 +24,44 @@ Or install it yourself as:
     $ rails g activepush:install
 
 ## Set up
-...
+```diff
+# config/initializers/activepush.rb
+Activepush.configure do |config|
+ # config.ios = :fcm
+ # config.android = :fcm
+ # config.fcm_server_key = 'xxx'
+end
+```
+
+## Usage
+
+$ rails g activepush:notification greeting
+
+```ruby
+class GreetingNotification
+  include Activepush::Notification
+
+  title 'Your title'
+  body 'Your body'
+
+  # def self.tokens(context)
+  #   Your token logic returns device_token or array
+  #   context.sessions.last_active_ios.device_token
+  # end
+end
+
+# send notification async (with token)
+GreetingNotification.perform_async('devise_token')
+
+# send notification async (with array of tokens)
+GreetingNotification.perform_async(['devise_token0', 'devise_token1'])
+
+# send notification async (with context)
+GreetingNotification.perform_async(context: user)
+
+# send immediately
+GreetingNotification.perform('devise_token')
+```
 
 ## Contributing
 

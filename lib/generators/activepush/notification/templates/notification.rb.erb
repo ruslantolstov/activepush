@@ -1,0 +1,11 @@
+class <%= file_name.classify %>Notification
+  include Activepush::Notification
+
+  title 'Your title'
+  body 'Your body'
+
+  # def self.tokens(context)
+  #   Your token logic returns device_token or array
+  #   context.sessions.last_active_ios.device_token
+  # end
+end
