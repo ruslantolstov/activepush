@@ -1,6 +1,13 @@
 require "activepush/version"
-
+require "activepush/configuration"
+require "activepush/worker"
+require "activepush/notification"
 module Activepush
-  class Error < StandardError; end
-  # Your code goes here...
+  def self.configure
+    yield(config)
+  end
+
+  def self.config
+    @config ||= Configuration.new
+  end
 end
