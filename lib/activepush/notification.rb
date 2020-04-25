@@ -2,7 +2,7 @@ module Activepush
   module Notification
     def self.included(base)
       base.extend(ClassMethods)
-      base.dynamic_class_attribute :_title, :_body
+      base.dynamic_class_attribute :_title, :_body, :_tokens
     end
 
     module ClassMethods
@@ -16,32 +16,44 @@ module Activepush
         self._body = body
       end
 
-      def perform(params)
-        if params.is_a?(Hash) && params[:context]
-          params = send(:tokens, params[:context])
-        elsif params.is_a?(String)
-          @device_tokens = [params]
-        elsif params.is_a?(Array)
-          @device_tokens = params
-        elsif respond_to?(:tokens)
-          raise ArgumentError.new("Send context in perform")
-        end
+      def tokens(&block)
+        self._tokens = block
+      end
 
+      def fetch_tokens(context)
+        raise StandardError.new("Undefined method tokens in #{self.name}") unless self._tokens
+        self._tokens.call(context)
+      end
+
+      def perform(params)
+        Activepush.config.validate_config
+        validate_params(params)
         Activepush::Worker.new.perform(title: _title, body: _body, device_tokens: @device_tokens)
       end
 
       def perform_async(params)
+        Activepush.config.validate_config
+        validate_params(params)
+        Activepush::Worker.perform_async(title: _title, body: _body, device_tokens: @device_tokens)
+      end
+
+      def perform_in(interval, params)
+        Activepush.config.validate_config
+        validate_params(params)
+        Activepush::Worker.perform_in(interval, title: _title, body: _body, device_tokens: @device_tokens)
+      end
+
+      def validate_params(params)
         if params.is_a?(Hash) && params[:context]
-          params = send(:tokens, params[:context])
-        elsif params.is_a?(String)
+          params = fetch_tokens(params[:context])
+        end
+        if params.is_a?(String)
           @device_tokens = [params]
         elsif params.is_a?(Array)
           @device_tokens = params
         elsif respond_to?(:tokens)
           raise ArgumentError.new("Send context in perform")
         end
-
-        Activepush::Worker.perform_async(title: _title, body: _body, device_tokens: @device_tokens)
       end
 
       def dynamic_class_attribute(*attrs)

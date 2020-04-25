@@ -44,7 +44,7 @@ class GreetingNotification
   title 'Your title'
   body 'Your body'
 
-  # def self.tokens(context)
+  # tokens(context)
   #   Your token logic returns device_token or array
   #   context.sessions.last_active_ios.pluck(:device_token)
   # end
