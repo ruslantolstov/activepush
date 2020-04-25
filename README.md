@@ -1,6 +1,9 @@
 # Activepush
+Activepush is a tool which allows you to make your Push Notifications logic structured. Simple DSL and background processing with [Sidekiq](https://github.com/mperham/sidekiq).
 
-...
+**Providers**
+* Firebase Cloud Messaging(FCM) - iOS, Android
+* Apple Push Notification Service(APNs) - iOS
 
 ## Requirements
 
