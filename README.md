@@ -1,6 +1,9 @@
 # Activepush
+Activepush is a tool which allows you to make your Push Notifications logic structured. Simple DSL and background processing with [Sidekiq](https://github.com/mperham/sidekiq).
 
-...
+**Providers**
+* Firebase Cloud Messaging(FCM) - iOS, Android
+* Apple Push Notification Service(APNs) - iOS
 
 ## Requirements
 
@@ -27,9 +30,11 @@ Or install it yourself as:
 ```diff
 # config/initializers/activepush.rb
 Activepush.configure do |config|
- # config.ios = :fcm
- # config.android = :fcm
- # config.fcm_server_key = 'xxx'
+  # config.ios = :fcm
+  # config.android = :fcm
+  # config.fcm_server_key = 'xxxx'
+  config.sidekiq_queue_name = :activepush
+  config.sidekiq_retry = 3
 end
 ```
 
