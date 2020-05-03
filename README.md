@@ -46,7 +46,7 @@ class GreetingNotification
 
   # tokens(context)
   #   Your token logic returns device_token or array
-  #   context.sessions.last_active_ios.pluck(:device_token)
+  #   context.user.devices.last_active.pluck(:device_token)
   # end
 end
 
@@ -62,6 +62,24 @@ GreetingNotification.perform_async(context: user)
 # send immediately
 GreetingNotification.perform('devise_token')
 ```
+## Dynamic data
+
+```ruby
+class WelcomeBackNotification
+  include Activepush::Notification
+
+  title -> (context) { "Welcome back #{context[:username]}" }
+  body -> (context) { "You have missed #{context[:messages]} messages" }
+
+  tokens(context)
+     context[:user].devices.last_active.pluck(:device_token)
+  end
+end
+
+WelcomeBackNotification.perform_async(context: { username: 'tom99', messages: 5, user: current_user })
+```
+
+
 
 ## Contributing
 

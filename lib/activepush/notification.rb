@@ -12,8 +12,16 @@ module Activepush
         self._title = title
       end
 
+      def fetch_title(params)
+        self._title.class == Proc ? self._title.call(params[:context]) : self._title
+      end
+
       def body(body)
         self._body = body
+      end
+
+      def fetch_body(params)
+        self._body.class == Proc ? self._body.call(params[:context]) : self._body
       end
 
       def tokens(&block)
@@ -28,19 +36,19 @@ module Activepush
       def perform(params)
         Activepush.config.validate_config
         validate_params(params)
-        Activepush::Worker.new.perform(title: _title, body: _body, device_tokens: @device_tokens)
+        Activepush::Worker.new.perform(title: fetch_title(params), body: fetch_body(params), device_tokens: @device_tokens)
       end
 
       def perform_async(params)
         Activepush.config.validate_config
         validate_params(params)
-        Activepush::Worker.perform_async(title: _title, body: _body, device_tokens: @device_tokens)
+        Activepush::Worker.perform_async(title: fetch_title(params), body: fetch_body(params), device_tokens: @device_tokens)
       end
 
       def perform_in(interval, params)
         Activepush.config.validate_config
         validate_params(params)
-        Activepush::Worker.perform_in(interval, title: _title, body: _body, device_tokens: @device_tokens)
+        Activepush::Worker.perform_in(interval, title: fetch_title(params), body: fetch_body(params), device_tokens: @device_tokens)
       end
 
       def validate_params(params)
